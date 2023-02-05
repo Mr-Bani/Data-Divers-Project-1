@@ -46,11 +46,6 @@ def link_city(cities):
 if __name__ == '__main__':
     cities = ['tehran', 'qom', 'bandarAbbas', 'karaj', 'rasht',
     'gorgan', 'hamedan', 'yazd', 'urmia', 'gonbad', 'arak']
-    link_city(cities)    
-
-
-
-
-    
+    link_city(cities)
 
 

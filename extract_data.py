@@ -4,7 +4,7 @@ import os
 import logging
 from requests.exceptions import HTTPError, ConnectionError, Timeout, RequestException
 def extract_data(url):
-    logging.basicConfig(filename='quera_magnet.log', filemode='w', format='%(asctime)s %(levelname)s: %(message)s')
+    logging.basicConfig(filename='delino_eror.log', filemode='w', format='%(asctime)s %(levelname)s: %(message)s')
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
     try:
