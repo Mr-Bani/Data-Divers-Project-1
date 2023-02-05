@@ -12,7 +12,7 @@ driver = webdriver.Chrome(options=options)
 driver.get('https://www.delino.com/search?q=%D9%BE%DB%8C%D8%AA%D8%B2%D8%A7')
 driver.implicitly_wait(6)
 result_number = int(driver.find_element(By.CSS_SELECTOR, '.result-container header>small').text.split()[0])
-print(f'Expected number of restaurants: {result_number}')
+#print(f'Expected number of restaurants: {result_number}')
 print('Scrapping...')
 
 wait = WebDriverWait(driver, 5)
@@ -27,3 +27,5 @@ restaurants = driver.find_element(By.CLASS_NAME, 'rest-list.clearfix').find_elem
 links = [restaurant.get_attribute('href') for restaurant in restaurants]
 print(f'Scrapping finished.')
 print(f'Number of links: {len(links)}')
+for link in links:
+    print(link)
