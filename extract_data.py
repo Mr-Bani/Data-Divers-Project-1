@@ -12,19 +12,20 @@ def extract_data(urls):
     restaurants = []
     try:
       for url in urls:
-        restaurant_data=[]
-        u = url.replace('https://www.delino.com/restaurant/', 'https://www.delino.com/restaurant/data/')
-        response = requests.get(u, timeout=5)
-        restaurant = response.json()
-        restaurant_data.append(restaurant)
-        id = restaurant["id"]
-        menu_req = requests.get('https://www.delino.com/restaurant/menu/' + id, timeout=5)
-        menu = menu_req.json()
-        restaurant_data.append(menu)
-        info_req = requests.get('https://www.delino.com/restaurant/info/' + id, timeout=5)
-        info= info_req.json()
-        restaurant_data.append(info)
-        restaurants.append(restaurant_data)
+        if url:
+          restaurant_data=[]
+          u = url.replace('https://www.delino.com/restaurant/', 'https://www.delino.com/restaurant/data/')
+          response = requests.get(u, timeout=5)
+          restaurant = response.json()
+          restaurant_data.append(restaurant)
+          id = restaurant["id"]
+          menu_req = requests.get('https://www.delino.com/restaurant/menu/' + id, timeout=5)
+          menu = menu_req.json()
+          restaurant_data.append(menu)
+          info_req = requests.get('https://www.delino.com/restaurant/info/' + id, timeout=5)
+          info= info_req.json()
+          restaurant_data.append(info)
+          restaurants.append(restaurant_data)
       save_file(restaurants)
     except HTTPError as http_err:
           logger.error('HTTP error occurred: {}'.format(http_err))
