@@ -42,17 +42,10 @@ def save_file(data):
 
     entry=data
     if not os.path.isfile("data.json"):
-
         with open("data.json", mode='w', encoding='utf-8') as f:
             f.write(json.dumps(entry, indent=2))
     else:
-        # must be rechecked
-        with open("data.json", encoding='utf-8') as feedsjson:
-            feeds = json.load(feedsjson)
-
-        feeds.append(entry)
-        with open("data.json", mode='w', encoding='utf-8') as f:
-            f.write(json.dumps(feeds, indent=2))
+      os.remove("data.json")
 
 sys.modules[__name__] = extract_data
 
