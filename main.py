@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
-
+import extract_data
 
 def find_url_restaurants(driver):
     print('Started Scrapping the page...')
@@ -32,11 +32,14 @@ def link_city(cities):
         URL = f'{DOMAIN}/{city}'
         driver = webdriver.Chrome()
         driver.get(URL)
-        driver.implicitly_wait(2)
+        driver.implicitly_wait(0.2)
         catagories_links = [link.get_attribute('href') for link in driver.find_elements(By.CSS_SELECTOR, '.thin-scrollbar.clearfix a')]
         for j, link in enumerate(catagories_links):
             driver.get(link)
-            all_restuarant_types_link[restuarants_types[j]] = find_url_restaurants(driver)
+            try:
+                all_restuarant_types_link.extend(find_url_restaurants(driver))
+            except:
+                print('sth went wrong 2')
             driver.execute_script("window.history.go(-1)")
         driver.quit()
     return all_restuarant_types_link
@@ -44,8 +47,7 @@ def link_city(cities):
 
 
 if __name__ == '__main__':
-    cities = ['tehran', 'qom', 'bandarAbbas', 'karaj', 'rasht',
+    cities = ['tehran', 'qom', 'bandarabas', 'karaj', 'rasht',
     'gorgan', 'hamedan', 'yazd', 'urmia', 'gonbad', 'arak']
-    link_city(cities)
-
-
+    links = link_city(cities)
+    extract_data(links)

@@ -3,24 +3,29 @@ import json
 import os
 import logging
 from requests.exceptions import HTTPError, ConnectionError, Timeout, RequestException
-def extract_data(url):
+import sys
+
+def extract_data(urls):
     logging.basicConfig(filename='delino_eror.log', filemode='w', format='%(asctime)s %(levelname)s: %(message)s')
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
+    restaurants = []
     try:
-      restaurant_data=[]
-      u = url.replace('https://www.delino.com/restaurant/', 'https://www.delino.com/restaurant/data/')
-      response = requests.get(u, timeout=5)
-      restaurant = response.json()
-      restaurant_data.append(restaurant)
-      id = restaurant["id"]
-      menu_req = requests.get('https://www.delino.com/restaurant/menu/' + id, timeout=5)
-      menu = menu_req.json()
-      restaurant_data.append(menu)
-      info_req = requests.get('https://www.delino.com/restaurant/info/' + id, timeout=5)
-      info= info_req.json()
-      restaurant_data.append(info)
-      save_file(restaurant_data)
+      for url in urls:
+        restaurant_data=[]
+        u = url.replace('https://www.delino.com/restaurant/', 'https://www.delino.com/restaurant/data/')
+        response = requests.get(u, timeout=5)
+        restaurant = response.json()
+        restaurant_data.append(restaurant)
+        id = restaurant["id"]
+        menu_req = requests.get('https://www.delino.com/restaurant/menu/' + id, timeout=5)
+        menu = menu_req.json()
+        restaurant_data.append(menu)
+        info_req = requests.get('https://www.delino.com/restaurant/info/' + id, timeout=5)
+        info= info_req.json()
+        restaurant_data.append(info)
+        restaurants.append(restaurant_data)
+      save_file(restaurants)
     except HTTPError as http_err:
           logger.error('HTTP error occurred: {}'.format(http_err))
     except ConnectionError as conn_err:
@@ -34,14 +39,14 @@ def extract_data(url):
 
 
 def save_file(data):
-    a = []
+
     entry=data
     if not os.path.isfile("data.json"):
 
-        a.append(entry)
         with open("data.json", mode='w', encoding='utf-8') as f:
-            f.write(json.dumps(a, indent=2))
+            f.write(json.dumps(entry, indent=2))
     else:
+        # must be rechecked
         with open("data.json", encoding='utf-8') as feedsjson:
             feeds = json.load(feedsjson)
 
@@ -49,6 +54,6 @@ def save_file(data):
         with open("data.json", mode='w', encoding='utf-8') as f:
             f.write(json.dumps(feeds, indent=2))
 
-
+sys.modules[__name__] = extract_data
 
 
