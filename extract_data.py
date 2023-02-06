@@ -37,15 +37,13 @@ def extract_data(urls):
 
 
 
-
 def save_file(data):
 
     entry=data
-    if not os.path.isfile("data.json"):
-        with open("data.json", mode='w', encoding='utf-8') as f:
-            f.write(json.dumps(entry, indent=2))
-    else:
-      os.remove("data.json")
+    if os.path.isfile("data.json"):
+        os.remove("data.json")
+    with open("data.json", mode='w', encoding='utf-8') as f:
+        f.write(json.dumps(entry, indent=2))
 
 sys.modules[__name__] = extract_data
 
