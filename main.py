@@ -25,7 +25,7 @@ def find_url_restaurants(driver):
 
 def link_city(cities):
     DOMAIN = 'https://www.delino.com'
-    all_restuarant_types_link = {}
+    all_restuarant_types_link = []
     restuarants_types = ['Pizza', 'Kebab','Soup', 'Sandwich','Persian_food','Crispy','Pasta',
     'Salad','Breakfast', 'Steak']
     for city in cities:
